@@ -1,0 +1,24 @@
+{
+  "name": "heimdall",
+  "version": "1.0.0",
+  "description": "Some code to help project based time tracking",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terrygonguet/heimdall.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/terrygonguet/heimdall/issues"
+  },
+  "homepage": "https://github.com/terrygonguet/heimdall#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-window-manager": "^2.0.1"
+  }
+}
