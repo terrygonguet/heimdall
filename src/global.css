@@ -1,0 +1,92 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+html,
+body {
+	height: 100%;
+}
+
+:root {
+	--bg-dark: #111111;
+	--bg-light: #eeeeee;
+	--accent-light: #e55b3c;
+	--accent: #f62217;
+	--radial-bg-light: #555555;
+	--radial-bg-dark: #333333;
+	--radial-outline: #777777;
+	--radial-center: black;
+	--radial-accent: var(--accent-light);
+}
+
+.translate-center {
+	transform: translate(-50%, -50%);
+}
+
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.absolute-center {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
+.scroll-snap-ym {
+	scroll-snap-type: y mandatory;
+}
+
+.scroll-snap-center {
+	scroll-snap-align: center;
+}
+
+@media (min-width: 768px) {
+	.back {
+		@apply m-8;
+	}
+}
+
+.a {
+	@apply text-accent-light;
+	transition: color 0.4s;
+}
+
+.a:hover {
+	@apply text-accent;
+}
+
+.a[target="_blank"]::after {
+	background-image: url("svg/external-link.svg");
+	width: 0.8em;
+	height: 0.8em;
+	display: inline-block;
+	content: " ";
+	background-size: contain;
+	vertical-align: text-top;
+	margin: 1px;
+}
+
+.back {
+	@apply block text-center my-4;
+}
+
+.btn {
+	@apply px-4 py-2 font-semibold text-white;
+	background-color: var(--accent-light);
+	transition: background-color 0.4s;
+}
+
+.btn:hover {
+	background-color: var(--accent);
+}
+
+.inline-code {
+	@apply border rounded-sm px-1;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.3);
+}

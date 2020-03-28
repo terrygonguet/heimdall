@@ -89,7 +89,7 @@ class Data {
 	 */
 	projectDuration(name) {
 		const project = this.projects[name]
-		if (!name) return 0
+		if (!project) return 0
 		return project.blocks.reduce(
 			(acc, cur) => acc + (cur.end - cur.start),
 			0,
