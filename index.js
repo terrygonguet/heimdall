@@ -31,8 +31,8 @@ new Data().then(
 		)
 
 		const app = server()
-		app.listen(process.env.PORT, () =>
-			console.log(`UI served on port ${process.env.PORT}`),
+		app.listen(process.env.PORT || 3000, () =>
+			console.log(`UI served on port ${process.env.PORT || 3000}`),
 		)
 	},
 )
