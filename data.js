@@ -1,4 +1,5 @@
 const fs = require("fs").promises
+const path = require("path")
 
 /**
  * @typedef {Object} Project
@@ -16,20 +17,29 @@ class Data {
 	constructor() {
 		/** @type {Object<string,Project>} */
 		this.projects = {}
-		this.extractor = new RegExp(process.env.NAME_EXTRACTOR, "i")
+		this.config = {
+			dayChange: 0,
+			sampleInterval: 5000,
+			maxGap: 300000,
+			masterTitle: "Work",
+			auxTitles: [],
+			extractor: "(.*)",
+		}
 		this.lastSave = 0
+		this.dbPath =
+			process.env.DB_PATH ||
+			path.join(process.env.USERPROFILE, "Documents/heimdall.json")
 
 		return new Promise(async (resolve, reject) => {
-			const dbPath = process.env.DB_PATH
 			try {
-				const h = await fs.open(dbPath)
+				const h = await fs.open(this.dbPath)
 				const buf = await h.readFile()
 				await h.close()
 				Object.assign(this, JSON.parse(buf.toString()))
 				return resolve(this)
 			} catch (error) {
 				if (error.code == "ENOENT") {
-					const h = await fs.open(dbPath, "w+")
+					const h = await fs.open(this.dbPath, "w+")
 					await h.writeFile(this)
 					await h.close()
 					return resolve(this)
@@ -55,17 +65,17 @@ class Data {
 		} else {
 			const { blocks } = project
 			const latest = blocks[blocks.length - 1]
-			if (now - latest.end > process.env.MAX_GAP)
+			if (now - latest.end > this.config.maxGap)
 				blocks.push({ start: now, end: now })
 			else latest.end = now
 		}
 
-		if (now - this.lastSave > process.env.MAX_GAP) this.save()
+		if (now - this.lastSave > this.config.maxGap) this.save()
 	}
 
 	async save() {
 		try {
-			const h = await fs.open(process.env.DB_PATH, "w+")
+			const h = await fs.open(this.dbPath, "w+")
 			await h.writeFile(this)
 			this.lastSave = Date.now()
 			await h.close()
@@ -86,8 +96,12 @@ class Data {
 		)
 	}
 
+	get extractor() {
+		return new RegExp(this.config.extractor, "i")
+	}
+
 	toJSON() {
-		return { projects: this.projects }
+		return { projects: this.projects, config: this.config }
 	}
 
 	toString() {
