@@ -16,6 +16,11 @@ body {
 	--accent: #f62217;
 }
 
+* {
+	border-width: 0;
+	border-style: solid;
+}
+
 .translate-center {
 	transform: translate(-50%, -50%);
 }
