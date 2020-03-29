@@ -84,6 +84,12 @@ class Data {
 		}
 	}
 
+	saveSync() {
+		const fs = require("fs")
+		fs.writeFileSync(this.dbPath, this)
+		this.lastSave = Date.now()
+	}
+
 	/**
 	 * @param {string} name
 	 */
@@ -94,6 +100,17 @@ class Data {
 			(acc, cur) => acc + (cur.end - cur.start),
 			0,
 		)
+	}
+
+	allProjects() {
+		return Object.keys(this.projects).map(name => ({
+			name,
+			duration: this.projectDuration(name),
+		}))
+	}
+
+	deleteProject(name) {
+		return delete this.projects[name]
 	}
 
 	get extractor() {

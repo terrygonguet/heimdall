@@ -14,11 +14,6 @@ body {
 	--bg-light: #eeeeee;
 	--accent-light: #e55b3c;
 	--accent: #f62217;
-	--radial-bg-light: #555555;
-	--radial-bg-dark: #333333;
-	--radial-outline: #777777;
-	--radial-center: black;
-	--radial-accent: var(--accent-light);
 }
 
 .translate-center {
@@ -29,6 +24,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
 
 .absolute-center {
@@ -45,10 +41,10 @@ body {
 	scroll-snap-align: center;
 }
 
-@media (min-width: 768px) {
-	.back {
-		@apply m-8;
-	}
+.inline-code {
+	@apply border rounded-sm px-1;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.3);
 }
 
 .a {
@@ -58,21 +54,6 @@ body {
 
 .a:hover {
 	@apply text-accent;
-}
-
-.a[target="_blank"]::after {
-	background-image: url("svg/external-link.svg");
-	width: 0.8em;
-	height: 0.8em;
-	display: inline-block;
-	content: " ";
-	background-size: contain;
-	vertical-align: text-top;
-	margin: 1px;
-}
-
-.back {
-	@apply block text-center my-4;
 }
 
 .btn {
@@ -85,8 +66,15 @@ body {
 	background-color: var(--accent);
 }
 
-.inline-code {
-	@apply border rounded-sm px-1;
-	background-color: rgba(255, 255, 255, 0.1);
-	border-color: rgba(255, 255, 255, 0.3);
+.btn:disabled {
+	filter: brightness(50%);
+	cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+	background-color: var(--accent-light);
+}
+
+.inpt {
+	@apply bg-transparent px-2 py-1 border-b;
 }

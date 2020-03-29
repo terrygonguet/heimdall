@@ -17,6 +17,8 @@
 		"shim-dev": "nodemon -q -w src/global.css -w src/template-master.html shimpack.js -- development"
 	},
 	"dependencies": {
+		"@polka/send-type": "^0.5.2",
+		"body-parser": "^1.19.0",
 		"dotenv": "^8.2.0",
 		"node-window-manager": "^2.0.1",
 		"polka": "next",
