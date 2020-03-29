@@ -8,7 +8,7 @@ import api from "./api"
 import { windowManager, Window } from "node-window-manager"
 import bodyParser from "body-parser"
 
-dotenv.config()
+if (process.env.NODE_ENV == "development") dotenv.config()
 
 const { PORT, NODE_ENV } = process.env
 const dev = NODE_ENV === "development"
