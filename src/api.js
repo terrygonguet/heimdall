@@ -1,69 +1,76 @@
-import Data from "./data"
+import Data from "./monitor"
 import { ServerResponse, IncomingMessage } from "http"
 import polka from "polka"
 import send from "@polka/send-type"
 import { windowManager, Window } from "node-window-manager"
+import { Document } from "mongoose"
+import { configKeys, Project } from "./db"
 
 /**
  * @typedef {(req: IncomingMessage, res: ServerResponse, next: Function) => void} RouteHandler
  */
 
 /**
- * @param {Data} data
+ * @param {Document} config
  */
-export default function(data) {
+export default function(config) {
 	const app = polka()
 	app.get(
 		"config",
 		/** @type {RouteHandler} */
-		(req, res) => send(res, 200, { error: false, data: data.config }),
+		(req, res) => send(res, 200, { error: false, data: config.toJSON() }),
 	)
 	app.put(
 		"config",
 		/** @type {RouteHandler} */
 		(req, res) => {
-			for (const key in data.config) {
-				if (req.body[key] != undefined) data.config[key] = req.body[key]
+			for (const key of configKeys) {
+				if (req.body[key]) config[key] = req.body[key]
 			}
-			data.save().then(() =>
-				send(res, 200, { error: false, data: data.config }),
-			)
+			config
+				.save()
+				.then(() =>
+					send(res, 200, { error: false, data: config.toJSON() }),
+				)
+				.catch((error) => {
+					console.error(error)
+					send(res, 400, { error: true, message: error.message })
+				})
 		},
 	)
 	app.get(
 		"curwindows",
 		/** @type {RouteHandler} */
 		(req, res) => {
-			const windows = windowManager.getWindows().map(w => w.getTitle())
+			const windows = windowManager.getWindows().map((w) => w.getTitle())
 			send(res, 200, { error: false, data: windows })
 		},
 	)
 	app.get(
 		"duration/:project",
 		/** @type {RouteHandler} */
-		(req, res) =>
+		async (req, res) =>
 			send(res, 200, {
 				error: false,
-				data: data.projectDuration(req.params.project),
+				data: await Project.findOne({ name: req.params.project })
+					.duration,
 			}),
 	)
 	app.get(
 		"projects",
 		/** @type {RouteHandler} */
-		(req, res) =>
-			send(res, 200, { error: false, data: data.allProjects() }),
+		async (req, res) =>
+			send(res, 200, { error: false, data: await Project.find({}) }),
 	)
 	app.delete(
 		"project/:project",
 		/** @type {RouteHandler} */
-		(req, res) => {
-			data.deleteProject(req.params.project)
-			data.save().then(() =>
-				send(res, 200, {
-					error: false,
-					data: data.allProjects(),
-				}),
-			)
+		async (req, res) => {
+			await Project.deleteOne({ name: req.params.project })
+			send(res, 200, {
+				error: false,
+				data: await Project.find({}),
+			})
 		},
 	)
 	app.use(
