@@ -3,18 +3,13 @@
 	"version": "1.0.0",
 	"description": "Some code to help project based time tracking",
 	"scripts": {
-		"dev": "run-p shim-dev s:dev",
-		"build": "run-s shim-prod s:build",
-		"export": "run-s shim-prod s:export",
-		"s:dev": "sapper dev --no-hot",
-		"s:build": "sapper build",
-		"s:export": "sapper export",
+		"dev": "sapper dev --no-hot",
+		"build": "sapper build",
+		"export": "sapper export",
 		"start": "node __sapper__/build",
 		"cy:run": "cypress run",
 		"cy:open": "cypress open",
-		"test": "run-p --race dev cy:run",
-		"shim-prod": "node shimpack.js production",
-		"shim-dev": "nodemon -q -w src/global.css -w src/template-master.html shimpack.js -- development"
+		"test": "run-p --race dev cy:run"
 	},
 	"dependencies": {
 		"@polka/send-type": "^0.5.2",
@@ -37,6 +32,7 @@
 		"npm-run-all": "^4.1.5",
 		"postcss": "^7.0.32",
 		"postcss-discard-comments": "^4.0.2",
+		"postcss-load-config": "^2.1.0",
 		"postcss-loader": "^3.0.0",
 		"prettier": "^1.19.1",
 		"purgecss-from-svelte": "^2.0.2",
@@ -44,6 +40,7 @@
 		"style-loader": "^1.2.1",
 		"svelte": "^3.23.2",
 		"svelte-loader": "^2.9.0",
+		"svelte-preprocess": "^3.9.8",
 		"tailwindcss": "^1.4.6",
 		"text-to-svg": "^3.1.5",
 		"webpack": "^4.43.0"
