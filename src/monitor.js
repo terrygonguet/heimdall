@@ -15,9 +15,7 @@ export default async function monitor(config) {
 	if (isTracking && isWorking) {
 		const now = Date.now()
 		const extractor = new RegExp(config.extractor)
-		const result = extractor.exec(masterTitle, "i")
-		let name = masterTitle
-		if (result) [, name] = result
+		const [, name] = extractor.exec(masterTitle, "i") || [, "Unknown"]
 		const project = await Project.findOne({ name })
 		if (!project) {
 			await new Project({
