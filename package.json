@@ -38,7 +38,7 @@
 		"purgecss-from-svelte": "^2.0.2",
 		"sapper": "^0.27.16",
 		"style-loader": "^1.2.1",
-		"svelte": "^3.24.0",
+		"svelte": "^3.49.0",
 		"svelte-loader": "^2.9.0",
 		"svelte-preprocess": "^3.9.12",
 		"tailwindcss": "^1.5.1",
